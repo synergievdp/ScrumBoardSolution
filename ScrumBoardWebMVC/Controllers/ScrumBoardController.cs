@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ScrumBoard.Services;
 using ScrumBoard.Models;
 using Microsoft.AspNetCore.Http;
+using ScrumBoardWebMVC.Models;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
@@ -71,6 +72,15 @@ namespace ScrumBoardWebMVC.Controllers {
             if (model == null)
                 return NotFound();
             model.State = state;
+            repo.Update(model);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult PostState(StatePost data)
+        {
+            var model = repo.GetById(data.GetId());
+            model.State = data.GetState();
             repo.Update(model);
             return RedirectToAction("Index");
         }

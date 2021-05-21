@@ -4,36 +4,66 @@
     ViewData["Title"] = "ScrumBoard";
 }
 
+
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev, id) {
+        ev.dataTransfer.setData("id", id);
+    }
+
+    function drop(ev, stateName) {
+        ev.preventDefault();
+        const obj = new Object();
+        obj.Id = ev.dataTransfer.getData("id");
+        obj.State = stateName;
+        jQuery.ajax({
+            type: "POST",
+            url: "@Url.Action("PostState")",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ data: obj }),
+            processData: false
+        });
+    }
+</script>
+
+
 <h2>ScrumBoard</h2>
 
 <div class="container">
     @Html.ActionLink("Create", "Create")
     <div class="row">
         @foreach (var state in Enum.GetValues<State>()) {
-            <div class="col">
+            <div class="col" ondrop="drop(event, '@Enum.GetName(state)')" ondragover="allowDrop(event)">
                 <strong>@Enum.GetName(state)</strong>
                 @foreach (ToDo toDo in Model.Where(toDo => toDo?.State == state)) {
-                    <div class="card">
-                        <div>@Html.ActionLink(toDo.Title, "Details", new { Id = toDo.Id })</div>
+                    <div class="card mt-3 p-2" draggable="true" ondragstart="drag(event, @toDo.Id)">
+                        <h5 class="font-weight-bold">@Html.ActionLink(toDo.Title, "Details", new { Id = toDo.Id })</h5>
 
-                        @if (toDo.StartDatePassed()) {
-                            <div class="alert-danger">Start date has passed!</div>
-                        }
-                        @if (toDo.DueDatePassed()) {
+                        @if (toDo.DueDatePassed())
+                        {
                             <div class="alert-danger">Due date has passed!</div>
                         }
-                    <div>
-                        @foreach (var state2 in Enum.GetValues<State>()) {
-                            if (state2 != state) {
-                                <sub>@Html.ActionLink(Enum.GetName(state2), "State", new { Id = toDo.Id, State = state2 })</sub>
-                            }
+                        else if (toDo.StartDatePassed())
+                        {
+                            <div class="alert-danger">Start date has passed!</div>
                         }
-                        </div>
-                    <div>
-                        <sub>@Html.ActionLink("Edit", "Edit", new { Id = toDo.Id })</sub>
-                        <sub>@Html.ActionLink("Delete", "Delete", new { Id = toDo.Id })</sub>
 
-                    </div>
+                        <div class="d-inline">
+                            @foreach (var state2 in Enum.GetValues<State>()) {
+                                if (state2 != state) {
+                                    <h6 class="d-inline">@Html.ActionLink(Enum.GetName(state2), "State", new { Id = toDo.Id, State = state2 })</h6>
+                                }
+                            }
+                        </div>
+
+                        <div class="text-white mb-1 text-light">
+                            <sub class="btn btn-info">@Html.ActionLink("Edit", "Edit", new { Id = toDo.Id })</sub>
+                            <sub class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { Id = toDo.Id })</sub>
+                        </div>
                     </div>
                 }
             </div>

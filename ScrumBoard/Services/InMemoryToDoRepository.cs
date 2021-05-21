@@ -11,12 +11,12 @@ namespace ScrumBoard.Services {
 
         public InMemoryToDoRepository() {
             ToDos = new();
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 0 });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 1, DueDate = DateTime.Now });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 2, StartDate = DateTime.Now, DueDate = DateTime.Now});
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 3, State = State.ToDo });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 4, State = State.Doing });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 5, State = State.Done });
+            ToDos.Add(new ToDo() { Title = "Test 1", Id = 0, State = State.Backlog }); ;
+            ToDos.Add(new ToDo() { Title = "Test 2", Id = 1, State = State.Doing, StartDate = new DateTime(2021, 5, 28), DueDate = new DateTime(2021, 6, 28) });
+            ToDos.Add(new ToDo() { Title = "Test 3", Id = 2, State = State.Done, StartDate = DateTime.Now, DueDate = DateTime.Now});
+            ToDos.Add(new ToDo() { Title = "Test 4", Id = 3, State = State.ToDo });
+            ToDos.Add(new ToDo() { Title = "Test 5", Id = 4, State = State.Doing });
+            ToDos.Add(new ToDo() { Title = "Test 6", Id = 5, State = State.Done });
         }
         public void Delete(int id) {
             ToDo toDo = GetById(id);
