@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoard", "ScrumBoard\ScrumBoard.csproj", "{10836550-3E2A-4368-ADC0-C52BBF155583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardWebMVC", "ScrumBoardWebMVC\ScrumBoardWebMVC.csproj", "{2984DDED-5EFA-4BB3-B7B0-302F064B54F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10836550-3E2A-4368-ADC0-C52BBF155583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10836550-3E2A-4368-ADC0-C52BBF155583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10836550-3E2A-4368-ADC0-C52BBF155583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10836550-3E2A-4368-ADC0-C52BBF155583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2984DDED-5EFA-4BB3-B7B0-302F064B54F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2984DDED-5EFA-4BB3-B7B0-302F064B54F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2984DDED-5EFA-4BB3-B7B0-302F064B54F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2984DDED-5EFA-4BB3-B7B0-302F064B54F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5C04A2F-DEEB-438B-9414-CF0834551703}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ScrumBoard.Models.ToDo>
+@using ScrumBoard.Models;
+@{
+    ViewData["Title"] = "ScrumBoard";
+}
+
+<h2>ScrumBoard</h2>
+
+<div class="container">
+    @Html.ActionLink("Create", "Create")
+    <div class="row">
+        @foreach (var state in Enum.GetValues<State>()) {
+            <div class="col">
+                <strong>@Enum.GetName(state)</strong>
+                @foreach (ToDo toDo in Model.Where(toDo => toDo?.State == state)) {
+                    <div class="card">
+                        <div>@Html.ActionLink(toDo.Title, "Details", new { Id = toDo.Id })</div>
+
+                        @if (toDo.StartDatePassed()) {
+                            <div class="alert-danger">Start date has passed!</div>
+                        }
+                        @if (toDo.DueDatePassed()) {
+                            <div class="alert-danger">Due date has passed!</div>
+                        }
+                    <div>
+                        @foreach (var state2 in Enum.GetValues<State>()) {
+                            if (state2 != state) {
+                                <sub>@Html.ActionLink(Enum.GetName(state2), "State", new { Id = toDo.Id, State = state2 })</sub>
+                            }
+                        }
+                        </div>
+                    <div>
+                        <sub>@Html.ActionLink("Edit", "Edit", new { Id = toDo.Id })</sub>
+                        <sub>@Html.ActionLink("Delete", "Delete", new { Id = toDo.Id })</sub>
+
+                    </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
