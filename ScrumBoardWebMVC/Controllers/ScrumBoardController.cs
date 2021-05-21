@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
-        IToDoRepository repo = new InMemoryToDoRepository();
+        static IToDoRepository repo = InMemoryToDoRepository.Instance;
         public IActionResult Index() {
             var model = repo.GetAll();
             return View(model);
@@ -56,12 +56,17 @@ namespace ScrumBoardWebMVC.Controllers {
             return View(toDo);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public IActionResult Delete(int id) {
             var model = repo.GetById(id);
             if (model == null)
                 return new NotFoundResult();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id, IFormCollection form = null) {
             repo.Delete(id);
             return RedirectToAction("Index");
         }
