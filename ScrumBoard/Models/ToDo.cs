@@ -7,9 +7,9 @@ namespace ScrumBoard.Models {
         [Required, StringLength(maximumLength: 255, MinimumLength = 1)]
         public string Title { get; set; }
         public State State { get; set; }
-        private DateTime startDate;
+        [Before(nameof(DueDate))]
         public DateTime StartDate { get; set; }
-        private DateTime dueDate;
+        [After(nameof(StartDate))]
         public DateTime DueDate { get; set; }
 
         public bool StartDatePassed() {
@@ -22,6 +22,42 @@ namespace ScrumBoard.Models {
             if (State != State.Done && DueDate < DateTime.Now)
                 return true;
             return false;
+        }
+    }
+
+    public class BeforeAttribute : ValidationAttribute {
+        public string OtherPropertyName { get; private set; }
+        public BeforeAttribute(string otherPropertyName) {
+            OtherPropertyName = otherPropertyName;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext) {
+            var other = validationContext.ObjectType.GetProperty(OtherPropertyName).GetValue(validationContext.ObjectInstance);
+
+            if(value is DateTime dateTime && other is DateTime otherDateTime) {
+                if (dateTime <= otherDateTime)
+                    return ValidationResult.Success;
+            }
+
+            return new ValidationResult(ErrorMessage);
+        }
+    }
+
+    public class AfterAttribute : ValidationAttribute {
+        public string OtherPropertyName { get; private set; }
+        public AfterAttribute(string otherPropertyName) {
+            OtherPropertyName = otherPropertyName;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext) {
+            var other = validationContext.ObjectType.GetProperty(OtherPropertyName).GetValue(validationContext.ObjectInstance);
+
+            if (value is DateTime dateTime && other is DateTime otherDateTime) {
+                if (dateTime >= otherDateTime)
+                    return ValidationResult.Success;
+            }
+
+            return new ValidationResult(ErrorMessage);
         }
     }
 }
