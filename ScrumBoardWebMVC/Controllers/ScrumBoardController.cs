@@ -9,7 +9,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
-        static IToDoRepository repo = InMemoryToDoRepository.Instance;
+        private readonly IToDoRepository repo;
+
+        public ScrumBoardController(IToDoRepository repo) {
+            this.repo = repo;
+        }
         public IActionResult Index() {
             var model = repo.GetAll();
             return View(model);
