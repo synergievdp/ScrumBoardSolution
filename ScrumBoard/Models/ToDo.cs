@@ -6,6 +6,7 @@ namespace ScrumBoard.Models {
         public int Id { get; set; }
         [Required, StringLength(maximumLength: 255, MinimumLength = 1)]
         public string Title { get; set; }
+        public string Notes { get; set; }
         public State State { get; set; }
         [Before(nameof(DueDate))]
         public DateTime StartDate { get; set; }
