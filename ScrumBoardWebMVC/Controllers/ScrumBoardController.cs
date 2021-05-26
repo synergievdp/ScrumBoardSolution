@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 using ScrumBoard.Services;
 using ScrumBoard.Models;
 using Microsoft.AspNetCore.Http;
+using ScrumBoardWebMVC.Models;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
-        private readonly IToDoRepository repo;
+        private readonly IToDoService service;
 
-        public ScrumBoardController(IToDoRepository repo) {
-            this.repo = repo;
+        public ScrumBoardController(IToDoService service) {
+            this.service = service;
         }
         public IActionResult Index() {
-            var model = repo.GetAll();
+            var model = service.GetAll();
             return View(model);
         }
 
         public IActionResult Details(int id) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if(model == null) {
                 return new NotFoundResult();
             }
@@ -34,17 +35,17 @@ namespace ScrumBoardWebMVC.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ToDo toDo) {
+        public IActionResult Create(ToDoViewModel viewModel) {
             if(ModelState.IsValid) {
-                repo.Insert(toDo);
-                return RedirectToAction("Details", new { Id = toDo.Id });
+                service.Insert(viewModel);
+                return RedirectToAction("Details", new { Id = viewModel.Id });
             }
             return View();
         }
 
         [HttpGet]
         public IActionResult Edit(int id) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if (model == null)
                 return new NotFoundResult();
             return View(model);
@@ -52,17 +53,17 @@ namespace ScrumBoardWebMVC.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ToDo toDo) {
+        public IActionResult Edit(ToDoViewModel viewModel) {
             if(ModelState.IsValid) {
-                repo.Update(toDo);
-                return RedirectToAction("Details", new { Id = toDo.Id });
+                service.Update(viewModel);
+                return RedirectToAction("Details", new { Id = viewModel.Id });
             }
-            return View(toDo);
+            return View(viewModel);
         }
 
         [HttpGet]
         public IActionResult Delete(int id) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if (model == null)
                 return new NotFoundResult();
             return View(model);
@@ -71,16 +72,16 @@ namespace ScrumBoardWebMVC.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection form = null) {
-            repo.Delete(id);
+            service.Delete(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult State(int id, State state) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if (model == null)
                 return NotFound();
             model.State = state;
-            repo.Update(model);
+            service.Update(model);
             return RedirectToAction("Index");
         }
     }

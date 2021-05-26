@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScrumBoard.Models.ToDo>
+﻿@model IEnumerable<ScrumBoardWebMVC.Models.ToDoViewModel>
 @using ScrumBoard.Models;
 @{
     ViewData["Title"] = "ScrumBoard";
@@ -12,7 +12,7 @@
         @foreach (var state in Enum.GetValues<State>()) {
             <div class="col">
                 <strong>@Enum.GetName(state)</strong>
-                @foreach (ToDo toDo in Model.Where(toDo => toDo?.State == state)) {
+                @foreach (var toDo in Model.Where(toDo => toDo?.State == state)) {
                     <div class="card">
                         <div>@Html.ActionLink(toDo.Title, "Details", new { Id = toDo.Id })</div>
 
