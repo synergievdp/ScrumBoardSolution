@@ -7,19 +7,8 @@ using System.Threading.Tasks;
 
 namespace ScrumBoard.Services {
     public class InMemoryToDoRepository : IToDoRepository {
-        List<ToDo> ToDos;
-        private static InMemoryToDoRepository instance;
-        public static InMemoryToDoRepository Instance { get { return instance ?? new InMemoryToDoRepository(); } }
+        List<ToDo> ToDos = new();
 
-        private InMemoryToDoRepository() {
-            ToDos = new();
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 1 });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 2, DueDate = DateTime.Now });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 3, StartDate = DateTime.Now, DueDate = DateTime.Now});
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 4, State = State.ToDo });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 5, State = State.Doing });
-            ToDos.Add(new ToDo() { Title = "ToDo", Id = 6, State = State.Done });
-        }
         public void Delete(int id) {
             ToDo toDo = GetById(id);
             if(toDo != null)
