@@ -40,7 +40,7 @@
         @foreach (var state in Enum.GetValues<State>()) {
             <div class="col" ondrop="drop(event, '@Enum.GetName(state)')" ondragover="allowDrop(event)">
                 <strong>@Enum.GetName(state)</strong>
-                @foreach (ToDo toDo in Model.Where(toDo => toDo?.State == state)) {
+                @foreach (var toDo in Model.Where(toDo => toDo?.State == state)) {
                     <div class="card mt-3 p-2" draggable="true" ondragstart="drag(event, @toDo.Id)">
                         <h5 class="font-weight-bold">@Html.ActionLink(toDo.Title, "Details", new { Id = toDo.Id })</h5>
 

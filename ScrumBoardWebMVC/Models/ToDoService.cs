@@ -43,7 +43,7 @@ namespace ScrumBoardWebMVC.Models {
 
         public void Update(ToDoViewModel toDo) {
             if (toDo != null && GetById(toDo.Id) != null) {
-                ToDo model = new();
+                ToDo model = repo.GetById(toDo.Id);
                 adapter.Adapt(toDo, model);
                 repo.Update(model);
             }

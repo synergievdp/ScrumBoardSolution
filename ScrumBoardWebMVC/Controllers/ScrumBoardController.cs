@@ -92,13 +92,12 @@ namespace ScrumBoardWebMVC.Controllers {
         [HttpPost]
         public IActionResult PostState([FromBody] StatePost data)
         {
-            var model = repo.GetById(data.GetId());
+            var model = service.GetById(data.GetId());
             if (model == null)
                 return NotFound();
             model.State = data.GetState();
-            repo.Update(model);
+            service.Update(model);
             return Json(new { success = true, page = "/Scrumboard" });
-            // return RedirectToAction("Index");
         }
     }
 }
