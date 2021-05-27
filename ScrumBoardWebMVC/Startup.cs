@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ScrumBoardWebMVC.Models;
 
 namespace ScrumBoardWebMVC {
     public class Startup {
@@ -24,6 +25,8 @@ namespace ScrumBoardWebMVC {
             services.AddDbContext<ScrumBoardDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("ScrumBoardDbContext")));
             services.AddScoped<IToDoRepository, SqlToDoRepository>();
+            services.AddScoped<IToDoAdapter, ToDoAdapter>();
+            services.AddScoped<IToDoService, ToDoService>();
             services.AddControllersWithViews();
 
         }
