@@ -24,8 +24,9 @@
             url: "@Url.Action("PostState")",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ data: obj }),
-            processData: false
+            data: JSON.stringify(obj),
+            processData: false,
+            success: (response) => window.location = response.page
         });
     }
 </script>

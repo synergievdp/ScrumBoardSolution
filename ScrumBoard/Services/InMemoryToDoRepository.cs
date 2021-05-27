@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 namespace ScrumBoard.Services {
     public class InMemoryToDoRepository : IToDoRepository {
         List<ToDo> ToDos;
+        private static InMemoryToDoRepository instance;
+        public static InMemoryToDoRepository Instance { get { return instance ?? new InMemoryToDoRepository(); } }
 
-        public InMemoryToDoRepository() {
+        private InMemoryToDoRepository() {
             ToDos = new();
             ToDos.Add(new ToDo() { Title = "Test 1", Id = 0, State = State.Backlog }); ;
             ToDos.Add(new ToDo() { Title = "Test 2", Id = 1, State = State.Doing, StartDate = new DateTime(2021, 5, 28), DueDate = new DateTime(2021, 6, 28) });
@@ -34,15 +36,15 @@ namespace ScrumBoard.Services {
 
         public void Insert(ToDo toDo) {
             ToDos.Add(toDo);
-            toDo.Id = ToDos.Max(t => t.Id);
+            toDo.Id = ToDos.Max(t => t.Id)+1;
         }
 
         public void Update(ToDo toDo) {
             var old = GetById(toDo.Id);
-            //foreach(var prop in typeof(ToDo).GetProperties()) {
-            //    prop.SetValue(old, prop.GetValue(toDo));
-            //}
-            old.State = toDo.State;
+            foreach (var prop in typeof(ToDo).GetProperties())
+            {
+                prop.SetValue(old, prop.GetValue(toDo));
+            }
         }
     }
 }
