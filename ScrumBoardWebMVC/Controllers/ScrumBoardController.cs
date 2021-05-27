@@ -88,5 +88,17 @@ namespace ScrumBoardWebMVC.Controllers {
             service.Update(model);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult PostState([FromBody] StatePost data)
+        {
+            var model = repo.GetById(data.GetId());
+            if (model == null)
+                return NotFound();
+            model.State = data.GetState();
+            repo.Update(model);
+            return Json(new { success = true, page = "/Scrumboard" });
+            // return RedirectToAction("Index");
+        }
     }
 }
