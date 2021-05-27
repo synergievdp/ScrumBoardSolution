@@ -6,19 +6,24 @@ using System.Threading.Tasks;
 using ScrumBoard.Services;
 using ScrumBoard.Models;
 using Microsoft.AspNetCore.Http;
+using ScrumBoardWebMVC.Models;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
-        IToDoRepository repo = new InMemoryToDoRepository();
+        private readonly IToDoService service;
+
+        public ScrumBoardController(IToDoService service) {
+            this.service = service;
+        }
         public IActionResult Index() {
-            var model = repo.GetAll();
+            var model = service.GetAll();
             return View(model);
         }
 
         public IActionResult Details(int id) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if(model == null) {
-                return new NotFoundResult();
+                return NotFound();
             }
             return View(model);
         }
@@ -30,48 +35,57 @@ namespace ScrumBoardWebMVC.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ToDo toDo) {
+        public IActionResult Create(ToDoViewModel viewModel) {
             if(ModelState.IsValid) {
-                repo.Insert(toDo);
-                return RedirectToAction("Details", new { Id = toDo.Id });
+                service.Insert(viewModel);
+                return RedirectToAction("Details", new { Id = viewModel.Id });
             }
             return View();
         }
 
         [HttpGet]
         public IActionResult Edit(int id) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if (model == null)
-                return new NotFoundResult();
+                return NotFound();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ToDo toDo) {
-            if(ModelState.IsValid) {
-                repo.Update(toDo);
-                return RedirectToAction("Details", new { Id = toDo.Id });
+        public IActionResult Edit(ToDoViewModel viewModel) {
+            if (service.GetById(viewModel.Id) == null)
+                return NotFound();
+            else if(ModelState.IsValid) {
+                service.Update(viewModel);
+                return RedirectToAction("Details", new { Id = viewModel.Id });
             }
-            return View(toDo);
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id) {
+            var model = service.GetById(id);
+            if (model == null)
+                return NotFound();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id) {
-            var model = repo.GetById(id);
-            if (model == null)
-                return new NotFoundResult();
-            repo.Delete(id);
+        public IActionResult Delete(int id, IFormCollection form = null) {
+            if (service.GetById(id) == null)
+                return NotFound();
+            service.Delete(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult State(int id, State state) {
-            var model = repo.GetById(id);
+            var model = service.GetById(id);
             if (model == null)
                 return NotFound();
             model.State = state;
-            repo.Update(model);
+            service.Update(model);
             return RedirectToAction("Index");
         }
     }

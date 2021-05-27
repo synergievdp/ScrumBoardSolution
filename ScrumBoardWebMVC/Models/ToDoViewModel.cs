@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ScrumBoard.Models;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ScrumBoard.Models {
-    public class ToDo {
+namespace ScrumBoardWebMVC.Models {
+    public class ToDoViewModel {
         public int Id { get; set; }
         [Required, StringLength(maximumLength: 255, MinimumLength = 1)]
         public string Title { get; set; }
