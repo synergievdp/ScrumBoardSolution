@@ -23,7 +23,7 @@ namespace ScrumBoardWebMVC.Controllers {
         public IActionResult Details(int id) {
             var model = service.GetById(id);
             if(model == null) {
-                return new NotFoundResult();
+                return NotFound();
             }
             return View(model);
         }
@@ -47,14 +47,16 @@ namespace ScrumBoardWebMVC.Controllers {
         public IActionResult Edit(int id) {
             var model = service.GetById(id);
             if (model == null)
-                return new NotFoundResult();
+                return NotFound();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(ToDoViewModel viewModel) {
-            if(ModelState.IsValid) {
+            if (service.GetById(viewModel.Id) == null)
+                return NotFound();
+            else if(ModelState.IsValid) {
                 service.Update(viewModel);
                 return RedirectToAction("Details", new { Id = viewModel.Id });
             }
@@ -65,13 +67,15 @@ namespace ScrumBoardWebMVC.Controllers {
         public IActionResult Delete(int id) {
             var model = service.GetById(id);
             if (model == null)
-                return new NotFoundResult();
+                return NotFound();
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id, IFormCollection form = null) {
+            if (service.GetById(id) == null)
+                return NotFound();
             service.Delete(id);
             return RedirectToAction("Index");
         }
