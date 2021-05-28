@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace ScrumBoard.Services {
     public class ScrumBoardDbContext : DbContext {
         public DbSet<ToDo> ToDos { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         public ScrumBoardDbContext(DbContextOptions<ScrumBoardDbContext> options) : base(options) {
             Database.Migrate();

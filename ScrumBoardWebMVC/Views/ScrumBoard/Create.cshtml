@@ -10,8 +10,8 @@
 <h4>ToDo</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <form asp-action="Create" class="w-100 d-inline-flex">
+        <div class="col md-4 w-50">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -41,8 +41,26 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="col md-4 w-50">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Contact.ContactType" class="control-label"></label>
+                <select asp-for="Contact.ContactType" asp-items="Html.GetEnumSelectList<ContactType>()" class="form-control"></select>
+                <span asp-validation-for="Contact.ContactType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact.Person" class="control-label"></label>
+                <input asp-for="Contact.Person" class="form-control" />
+                <span asp-validation-for="Contact.Person" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact.Note" class="control-label"></label>
+                @Html.TextAreaFor(model => model.Contact.Note, new { @class = "form-control" })
+                <span asp-validation-for="Contact.Note" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div>

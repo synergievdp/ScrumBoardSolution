@@ -12,6 +12,7 @@ namespace ScrumBoardWebMVC.Models {
         public string Title { get; set; }
         public string Notes { get; set; }
         public State State { get; set; }
+        public Contact Contact { get; set; }
         [Before(nameof(DueDate))]
         public DateTime StartDate { get; set; }
         [After(nameof(StartDate))]
