@@ -19,11 +19,11 @@ namespace ScrumBoard.Services {
         }
 
         public IEnumerable<ToDo> GetAll() {
-            return dbContext.ToDos.OrderBy(toDo => toDo.State);
+            return dbContext.ToDos.Include(t => t.Contact).OrderBy(toDo => toDo.State);
         }
 
         public ToDo GetById(int id) {
-            return dbContext.ToDos.FirstOrDefault(toDo => toDo.Id == id);
+            return dbContext.ToDos.Include(t => t.Contact).FirstOrDefault(toDo => toDo.Id == id);
         }
 
         public void Insert(ToDo toDo) {

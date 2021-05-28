@@ -4,50 +4,70 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Details - @Model.Title</h1>
 
-<div>
-    <h4>ToDo</h4>
+<div class="d-inline w-100">
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.TextAreaFor(model => model.Notes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.State)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
-    </dl>
+    <div class="d-inline-flex w-100">
+        <dl class="column w-50">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextAreaFor(model => model.Notes)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.State)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.State)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DueDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DueDate)
+            </dd>
+        </dl>
+        <dl class="column w-50">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Contact.Person)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Contact.Person)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Contact.Note)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextAreaFor(model => model.Contact.Note)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Contact.ContactType)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Contact.ContactType)
+            </dd>
+        </dl>
+    </div>
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
