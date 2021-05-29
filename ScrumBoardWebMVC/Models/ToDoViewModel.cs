@@ -1,4 +1,5 @@
-﻿using ScrumBoard.Models;
+﻿using Microsoft.AspNetCore.Http;
+using ScrumBoard.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,11 @@ namespace ScrumBoardWebMVC.Models {
         public DateTime StartDate { get; set; }
         [After(nameof(StartDate))]
         public DateTime DueDate { get; set; }
+        public IList<IFormFile> Files { get; set; }
+
+        public ToDoViewModel() {
+            Files = new List<IFormFile>();
+        }
 
         public bool StartDatePassed() {
             if (State < State.Doing && StartDate < DateTime.Now)
