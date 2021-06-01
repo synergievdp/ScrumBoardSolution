@@ -1,25 +1,51 @@
-﻿@model IEnumerable< Microsoft.AspNetCore.Http.IFormFile>
+﻿@model IEnumerable<Microsoft.AspNetCore.Http.IFormFile>
 
 <script>
-    function uploadFiles(inputId) {
-        var input = document.getElementById(inputId);
-        var files = input.files;
-        var formData = new FormData();
 
-        var model = JSON.parse("@Html.Raw(Json.Serialize(Model))");
-        for (var file of model) {
+    const formData = new FormData();
+
+    function uploadFiles(inputId) {
+        const input = document.getElementById(inputId);
+        const files = input.files;
+
+        for (const file of files) {
+            formData.append('NewFiles', file);
+        }
+        const entries = formData.entries();
+        const displayArray = [];
+        for (const entry of entries) {
+            displayArray.push(entry[1].name)
+        }
+        const fileList = $("#fileList");
+        fileList.html("");
+        jQuery.each(displayArray, (i, val) => {
+            fileList.append($(`<div class="d-inline-flex"><p class='mr-2'>${val}</p>@Html.ActionLink("Remove", "Remove")</div>`))
+        });
+
+        @*const formData = new FormData();
+
+        const model = @Json.Serialize(Model);
+        for (const file of model) {
+            console.log("Old file:");
+            console.log(file);
+            console.log("\n");
             formData.append('OldFiles', file);
         }
 
-        console.log(JSON.stringify(model));
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append('NewFiles', files[i]);
+        for (const file of files) {
+            console.log("New file:");
+            console.log(file);
+            console.log("\n");
+            formData.append('NewFiles', file);
         }
 
-        console.log(...formData);
+        for (const pair of formData.entries()) {
+            console.log("FormData Entry:");
+            console.log(pair[0] + ', ' + pair[1].name);
+            console.log("\n");
+        }*@
 
-        $.ajax({
+        jQuery.ajax({
             type: "POST",
             url: "@Url.Action("AddFiles")",
             contentType: false,
@@ -33,12 +59,15 @@
 </script>
 
 <div id="partial">
-    @foreach (var file in Model) {
+    <div id="fileList">
+
+    </div>
+    @*@foreach (var file in Model) {
         <div>
             @file.FileName
             @Html.ActionLink("Remove", "Remove")
         </div>
-    }
+    }*@
     <div>
         <input id="files" type="file" multiple onchange="uploadFiles('files')" />
     </div>

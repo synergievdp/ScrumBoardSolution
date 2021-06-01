@@ -5,6 +5,17 @@
     ViewData["Title"] = "Edit";
 }
 
+<script>
+    var ID = () => '_' + Math.random().toString(36).substr(2, 9);
+
+    function uploadFile() {
+        const lastChild = $("#fileList input:last-child")
+        lastChild.css({ display: "none" });
+        $("#fileList").append(`<input id="${ID()}" type="file" onchange="uploadFile()"/>`);
+        $("#fileDisplayList").append($(`<div class="d-inline-flex w-100"><p class='mr-2'>${document.getElementById(lastChild.attr('id')).files[0].name}</p>@Html.ActionLink("Remove", "Remove")</div>`))
+    }
+</script>
+
 <h1>Edit</h1>
 
 <h4>ToDo</h4>
@@ -38,9 +49,15 @@
                 <input asp-for="DueDate" class="form-control" />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <partial name="_Files" for="Files" />
+            <div id="fileDisplayList" class="d-block">
+
             </div>
+            <div id="fileList">
+                <input id="firstfile" name="attachments[]" type="file" onchange="uploadFile()"/>
+            </div>
+            @*<div class="form-group">
+                <partial name="_Files" for="Files" />
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
