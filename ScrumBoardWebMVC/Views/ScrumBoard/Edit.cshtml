@@ -11,7 +11,7 @@
     function uploadFile() {
         const lastChild = $("#fileList input:last-child")
         lastChild.css({ display: "none" });
-        $("#fileList").append(`<input id="${ID()}" type="file" onchange="uploadFile()"/>`);
+        $("#fileList").append(`<input id="${ID()}" name="Files" type="file" onchange="uploadFile()"/>`);
         $("#fileDisplayList").append($(`<div class="d-inline-flex w-100"><p class='mr-2'>${document.getElementById(lastChild.attr('id')).files[0].name}</p>@Html.ActionLink("Remove", "Remove")</div>`))
     }
 </script>
@@ -22,7 +22,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -53,7 +53,7 @@
 
             </div>
             <div id="fileList">
-                <input id="firstfile" name="attachments[]" type="file" onchange="uploadFile()"/>
+                <input id="firstfile" name="Files" type="file" onchange="uploadFile()"/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
