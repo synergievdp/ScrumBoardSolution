@@ -99,16 +99,5 @@ namespace ScrumBoardWebMVC.Controllers {
             service.Update(model);
             return Json(new { success = true, page = "/Scrumboard" });
         }
-
-        [HttpPost]
-        public IActionResult AddFiles(AddFiles data) {
-
-            var oldFiles = data.OldFiles ?? new List<IFormFile>();
-            foreach (var file in data.NewFiles) {
-                oldFiles.Add(file);
-            }
-
-            return PartialView("_Files", oldFiles);
-        }
     }
 }
