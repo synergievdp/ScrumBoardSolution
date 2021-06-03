@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ScrumBoard.Models {
@@ -13,6 +14,7 @@ namespace ScrumBoard.Models {
         public DateTime StartDate { get; set; }
         [After(nameof(StartDate))]
         public DateTime DueDate { get; set; }
+        public ICollection<File> Files { get; set; }
 
         public bool StartDatePassed() {
             if (State < State.Doing && StartDate < DateTime.Now)

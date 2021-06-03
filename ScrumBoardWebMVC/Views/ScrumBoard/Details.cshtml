@@ -46,6 +46,14 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.DueDate)
             </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Files)
+            </dt>
+            @foreach (var file in Model.Files) {
+                <dd class="col-sm-10">
+                    @Html.ActionLink(file.FileName, "Download", new { file = file })
+                </dd>
+            }
         </dl>
         <dl class="column w-50">
             <dt class="col-sm-2">

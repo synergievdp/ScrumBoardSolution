@@ -20,6 +20,10 @@ namespace ScrumBoardWebMVC.Models {
         public DateTime DueDate { get; set; }
         public List<IFormFile> Files { get; set; }
 
+        public ToDoViewModel() {
+            Files = new List<IFormFile>();
+        }
+
         public bool StartDatePassed() {
             if (State < State.Doing && StartDate < DateTime.Now)
                 return true;

@@ -32,20 +32,20 @@ namespace ScrumBoardWebMVC.Models {
             return viewModel;
         }
 
-        public void Insert(ToDoViewModel toDo) {
-            if (toDo != null) {
-                ToDo model = new();
-                adapter.Adapt(toDo, model);
-                repo.Insert(model);
-                toDo.Id = model.Id;
+        public void Insert(ToDoViewModel viewModel) {
+            if (viewModel != null) {
+                ToDo toDo = new();
+                adapter.Adapt(viewModel, toDo);
+                repo.Insert(toDo);
+                viewModel.Id = toDo.Id;
             }
         }
 
-        public void Update(ToDoViewModel toDo) {
-            if (toDo != null && GetById(toDo.Id) != null) {
-                ToDo model = repo.GetById(toDo.Id);
-                adapter.Adapt(toDo, model);
-                repo.Update(model);
+        public void Update(ToDoViewModel viewModel) {
+            if (viewModel != null && GetById(viewModel.Id) != null) {
+                ToDo toDo = repo.GetById(viewModel.Id);
+                adapter.Adapt(viewModel, toDo);
+                repo.Update(toDo);
             }
         }
     }
