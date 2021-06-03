@@ -39,7 +39,10 @@ namespace ScrumBoardWebMVC.Models {
                     toProp.SetValue(to, fromProp.GetValue(from));
 
                 if(fromProp.Name == nameof(from.Files)) {
-                    foreach(var file in from.Files) {
+                    if(from.Files.Count == 0)
+                    {
+                        toProp.SetValue(to, new List<ScrumBoard.Models.File>());
+                    } else foreach(var file in from.Files) {
                         if (!to.Files.Any(f => Path.GetFileName(f.Path) == file.FileName)) {
                             var dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "uploads");
                             var path = Path.Combine(dir, file.FileName);

@@ -7,6 +7,8 @@ using ScrumBoard.Services;
 using ScrumBoard.Models;
 using Microsoft.AspNetCore.Http;
 using ScrumBoardWebMVC.Models;
+using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace ScrumBoardWebMVC.Controllers {
     public class ScrumBoardController : Controller {
@@ -58,7 +60,7 @@ namespace ScrumBoardWebMVC.Controllers {
                 return NotFound();
             else if(ModelState.IsValid) {
                 service.Update(viewModel);
-                return RedirectToAction("Details", new { Id = viewModel.Id });
+                return RedirectToAction("Details", new { viewModel.Id });
             }
             return View(viewModel);
         }
@@ -98,6 +100,36 @@ namespace ScrumBoardWebMVC.Controllers {
             model.State = data.GetState();
             service.Update(model);
             return Json(new { success = true, page = "/Scrumboard" });
+        }
+
+        public FileResult Download(string fileName)
+        {
+            string dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "uploads");
+            string path = Path.Combine(dir, fileName);
+            string mimeType;
+            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out mimeType);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            return File(fileBytes, mimeType ?? "application/octet-stream", fileName);
+        }
+
+        public IActionResult RemoveFile(string fileName, int id)
+        {
+            var model = service.GetById(id);
+            if (model == null)
+                return NotFound();
+            var file = model.Files.Find(file => file.FileName == fileName);
+            if (file == null)
+                return NotFound();
+            string dir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "uploads");
+            string path = Path.Combine(dir, fileName);
+            System.IO.File.Delete(path);
+            model.Files.Remove(file);
+            if (ModelState.IsValid)
+            {
+                service.Update(model);
+                return RedirectToAction("Details", new { model.Id });
+            }
+            return View(model);
         }
     }
 }
